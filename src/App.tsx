@@ -1,9 +1,24 @@
-function App() {
-  return (
-    <>
-      <h1 className="text-4xl">Ola mundo!</h1>
-    </>
-  )
-}
+import { useState, useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
 
-export default App
+import { Routes } from "./routes";
+import { NavbarComponent } from "./shared/components/NavbarComponent";
+
+// const useApp = () => {
+//   const navigate = useNavigate();
+
+//   return { navigate }
+// };
+
+const App = () => {
+  return (
+    <main>
+      <BrowserRouter>
+        <NavbarComponent />
+        <Routes />
+      </BrowserRouter>
+    </main>
+  );
+};
+
+export default App;
