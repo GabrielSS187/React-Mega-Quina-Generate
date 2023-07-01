@@ -1,1 +1,0 @@
-# React-Mega-Quina-Generate
