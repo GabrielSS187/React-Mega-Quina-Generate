@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Dropdown, Flowbite } from "flowbite-react";
+
 
 export const NavbarComponent = () => {
   const navigate = useNavigate();
@@ -11,8 +12,20 @@ export const NavbarComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const selectedImageByTypeGame = () => {
+    switch (actualPath) {
+      case "/sena":
+        return { path: "/img/logo-mega-banner.png", color:  "bg-green-500"};
+      case "/quina":
+        return { path: "/img/logo-quina-banner.png", color:  "bg-purple-800"};
+      default:
+        return { path: "/img/logo-mega-banner.png", color:  "bg-green-500"};
+    }
+  };
+
   return (
-    <nav className="ml-3 mt-2">
+    <nav className="relative z-50 flex flex-row-reverse items-center justify-between mt-2 mx-3">
+      <img src={`${selectedImageByTypeGame().path}`} alt="logo" className={`w-[150px] ${selectedImageByTypeGame().color}`} />
       <Flowbite>
         <Dropdown label="JOGOS" gradientDuoTone="pinkToOrange">
           <Dropdown.Item>
