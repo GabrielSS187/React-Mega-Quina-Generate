@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@uidotdev/usehooks": "^2.0.1",
+    "flowbite": "^1.6.6",
+    "flowbite-react": "^0.4.9",
     "react": "^18.2.0",
+    "react-animated-numbers": "^0.16.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.14.1"
   },
