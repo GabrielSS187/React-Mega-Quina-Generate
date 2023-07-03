@@ -1,14 +1,21 @@
-export const SendNumbersButtons = () => {
+type TProps = {
+  whatsApp: (params: string | undefined) => void;
+  telegram: (params: string | undefined) => void;
+  waParams: string | undefined;
+  teParams: string | undefined;
+}
+
+export const SendNumbersButtons = ({ telegram, whatsApp, teParams, waParams }: TProps) => {
   return (
     <div className="flex items-center justify-center">
-      <button>
+      <button onClick={() => whatsApp(waParams)}>
         <img
           src="/img/whatsapp.png"
           alt="WhatsApp Logo"
           className="w-[45px] sm:w-[55px]"
         />
       </button>
-      <button>
+      <button onClick={() => telegram(teParams)}>
         <img
           src="/img/telegram.png"
           alt="Telegram Logo"

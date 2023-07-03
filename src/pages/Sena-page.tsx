@@ -8,11 +8,13 @@ import { GenerateNumbers } from "../shared/common/GenerateNumbers";
 import { GenerateNumbersButtons } from "../shared/common/ButtonsContainer/GenerateNumbersButtons";
 import { SendNumbersButtons } from "../shared/common/ButtonsContainer/SendNumbersButtons";
 import { ListNumbers } from "../shared/common/ListNumbers";
+import { TeAndWaModal } from "../shared/common/Modals/TeAndWaModal";
 
 const useSenaPage = () => {
   const [numbersMegaSena, setNumbersMegaSena] = useState<number[]>([
     0o0, 0o0, 0o0, 0o0, 0o0, 0o0,
   ]);
+  const [openModal, setOpenModal] = useState<"TeAndWa*" | undefined>(undefined);
   const [value, setCopy] = useCopyToClipboard();
 
   function generateNumbersMegaSena(): void {
@@ -26,12 +28,12 @@ const useSenaPage = () => {
     setNumbersMegaSena(numbers);
 
     setTimeout(() => {
-      window.scrollTo({behavior: "smooth", top: 300})
+      window.scrollTo({ behavior: "smooth", top: 300 });
       toast.success(`Números gerados com sucesso.`, {
         toastId: "success-sena-0*",
         position: "bottom-center",
-      })
-    }, 5000)
+      });
+    }, 5000);
   }
 
   const copyNumbers = (numbers: number[]): void => {
@@ -39,10 +41,10 @@ const useSenaPage = () => {
       toast.error("Erro: Gere os números primeiro!", {
         toastId: "error-sena-0*",
         position: "bottom-center",
-      })
-      return
+      });
+      return;
     }
-    
+
     const transformedInString = String(numbers);
     toast.promise(
       setCopy(transformedInString),
@@ -51,24 +53,58 @@ const useSenaPage = () => {
         success: `Copiado: ${transformedInString}`,
       },
       {
-        toastId:  "success-sena-1*",
+        toastId: "success-sena-1*",
         position: "bottom-center",
       }
-    )
-  }
+    );
+  };
 
-  return { numbersMegaSena, generateNumbersMegaSena, copyNumbers };
+  const verifyIfNumbersMegaSena = (): { contem: boolean; text: string } => {
+    if (numbersMegaSena[0] === 0o0) {
+      return {
+        contem: false,
+        text: "Gere um número é receba no seu aplicativo.",
+      };
+    }
+
+    return { contem: true, text: String(numbersMegaSena) };
+  };
+
+  return {
+    numbersMegaSena,
+    generateNumbersMegaSena,
+    copyNumbers,
+    openModal,
+    setOpenModal,
+    verifyIfNumbersMegaSena,
+  };
 };
 
 export const SenaPage = () => {
-  const { numbersMegaSena, generateNumbersMegaSena, copyNumbers } = useSenaPage();
+  const {
+    numbersMegaSena,
+    generateNumbersMegaSena,
+    copyNumbers,
+    openModal,
+    setOpenModal,
+    verifyIfNumbersMegaSena,
+  } = useSenaPage();
 
   return (
     <main>
+      <TeAndWaModal
+        activeModalName={openModal}
+        setActiveModalName={setOpenModal}
+        typeModal="Telegram"
+        sendTextObj={verifyIfNumbersMegaSena}
+      />
       <div className="top-[0] absolute w-full bg-green-500 pb-2 rounded-b-3xl">
         <div className="flex flex-col gap-1 sm:gap-2 mt-20">
           <div className="flex justify-center text-white text-xs mb-1 font-poppins font-medium sm:text-sm">
-            <button onClick={() => copyNumbers(numbersMegaSena)} className="flex gap-1 items-center hover:border-dotted hover:border-b-2  hover:pb-[1px]">
+            <button
+              onClick={() => copyNumbers(numbersMegaSena)}
+              className="flex gap-1 items-center hover:border-dotted hover:border-b-2  hover:pb-[1px]"
+            >
               <p>Copia Números</p>
               <CopySimple size={20} />
             </button>
@@ -78,7 +114,12 @@ export const SenaPage = () => {
             generateNumbersRandom={generateNumbersMegaSena}
             generateNumbersBest={generateNumbersMegaSena}
           />
-          <SendNumbersButtons />
+          <SendNumbersButtons
+            whatsApp={() => setOpenModal("TeAndWa*")}
+            telegram={() => setOpenModal("TeAndWa*")}
+            waParams={openModal}
+            teParams={openModal}
+          />
         </div>
       </div>
       <div className="flex justify-center mt-72">
@@ -86,6 +127,7 @@ export const SenaPage = () => {
           quantityNumbers={60}
           numbersGenerates={numbersMegaSena}
           typeGame="sena"
+          openModal={openModal}
         />
       </div>
     </main>

@@ -26,23 +26,23 @@ const useQuinaPage = () => {
     setNumbersQuina(numbers);
 
     setTimeout(() => {
-      window.scrollTo({behavior: "smooth", top: 300})
+      window.scrollTo({ behavior: "smooth", top: 300 });
       toast.success(`Números gerados com sucesso.`, {
         toastId: "success-quina-0*",
         position: "bottom-center",
-      })
-    }, 5000)
-  }
+      });
+    }, 5000);
+  };
 
   const copyNumbers = (numbers: number[]): void => {
     if (numbers[0] === 0o0) {
       toast.error("Erro: Gere os números primeiro!", {
         toastId: "error-quina-0*",
         position: "bottom-center",
-      })
-      return
+      });
+      return;
     }
-    
+
     const transformedInString = String(numbers);
     toast.promise(
       setCopy(transformedInString),
@@ -51,11 +51,11 @@ const useQuinaPage = () => {
         success: `Copiado: ${transformedInString}`,
       },
       {
-        toastId:  "success-quina-1*",
+        toastId: "success-quina-1*",
         position: "bottom-center",
       }
-    )
-  }
+    );
+  };
 
   return { numbersQuina, generateNumbersQuina, copyNumbers };
 };
@@ -68,7 +68,10 @@ export const QuinaPage = () => {
       <div className="absolute top-[0] w-full bg-purple-800 pb-2 rounded-b-3xl">
         <div className="flex flex-col gap-1 sm:gap-2 mt-20">
           <div className="flex justify-center text-white text-xs mb-1 font-poppins font-medium sm:text-sm">
-            <button onClick={() => copyNumbers(numbersQuina)} className="flex gap-1 items-center hover:border-dotted hover:border-b-2  hover:pb-[1px]">
+            <button
+              onClick={() => copyNumbers(numbersQuina)}
+              className="flex gap-1 items-center hover:border-dotted hover:border-b-2  hover:pb-[1px]"
+            >
               <p>Copia Números</p>
               <CopySimple size={20} />
             </button>

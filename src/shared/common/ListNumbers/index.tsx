@@ -5,12 +5,14 @@ type TProps = {
   quantityNumbers: number;
   numbersGenerates: number[];
   typeGame: "sena" | "quina";
+  openModal: string | undefined;
 };
 
 export const ListNumbers = ({
   quantityNumbers,
   numbersGenerates,
   typeGame,
+  openModal
 }: TProps) => {
   const arrayNumbers = Array.from(Array(quantityNumbers).keys()).map(
     (number) => number + 1
@@ -33,7 +35,7 @@ export const ListNumbers = ({
   };
 
   return (
-    <ul className="flex flex-wrap justify-center gap-2 px-2 sm:px-5 lg:w-[70rem]">
+    <ul className={`flex flex-wrap justify-center gap-2 px-2 sm:px-5 lg:w-[70rem]`}>
       {arrayNumbers.map((number) => {
         return (
           <li
