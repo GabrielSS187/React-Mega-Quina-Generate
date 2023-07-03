@@ -6,7 +6,7 @@ type TProps = {
   numbersArray: number[];
 };
 
-export const GenerateNumbersComponent = ({
+export const GenerateNumbers = ({
   numbersArray,
   typeGame,
 }: TProps) => {
