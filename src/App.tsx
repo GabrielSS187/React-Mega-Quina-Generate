@@ -1,4 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import { Routes } from "./routes";
 import { NavbarComponent } from "./shared/components/NavbarComponent";
@@ -10,6 +11,7 @@ const App = () => {
         <NavbarComponent />
         <Routes />
       </BrowserRouter>
+      <ToastContainer />
     </main>
   );
 };
