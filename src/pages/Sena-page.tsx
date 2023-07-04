@@ -9,6 +9,7 @@ import { GenerateNumbersButtons } from "../shared/common/ButtonsContainer/Genera
 import { SendNumbersButtons } from "../shared/common/ButtonsContainer/SendNumbersButtons";
 import { ListNumbers } from "../shared/common/ListNumbers";
 import { TeAndWaModal } from "../shared/common/Modals/TeAndWaModal";
+import { Footer } from "../shared/components/Footer";
 
 const useSenaPage = () => {
   const [numbersMegaSena, setNumbersMegaSena] = useState<number[]>([
@@ -123,13 +124,15 @@ export const SenaPage = () => {
           />
         </div>
       </div>
-      <div className="flex justify-center mt-72">
+      <div className="flex justify-center mt-72 mb-4">
         <ListNumbers
           quantityNumbers={60}
           numbersGenerates={numbersMegaSena}
           typeGame="sena"
         />
       </div>
+      <br />
+      <Footer actualPage="sena"/>
     </main>
   );
 };

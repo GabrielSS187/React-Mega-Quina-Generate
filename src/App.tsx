@@ -7,11 +7,11 @@ import { NavbarComponent } from "./shared/components/NavbarComponent";
 const App = () => {
   return (
     <main className="pb-2 h-auto">
+      <ToastContainer />
       <BrowserRouter>
         <NavbarComponent />
         <Routes />
       </BrowserRouter>
-      <ToastContainer />
     </main>
   );
 };

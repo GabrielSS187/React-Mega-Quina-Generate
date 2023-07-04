@@ -89,9 +89,9 @@ export const TeAndWaModal = ({
         onClose={closeModal}
       >
         <Modal.Header>
-          <h2 className="font-poppins font-bold">
+          {/* <h6 className="font-poppins font-bold"> */}
             {activeModalName && activeModalName.toLocaleUpperCase()}
-          </h2>
+          {/* </h6> */}
         </Modal.Header>
         <Modal.Body>
           <div className="font-poppins">

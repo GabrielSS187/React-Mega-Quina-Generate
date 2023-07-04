@@ -9,6 +9,7 @@ import { SendNumbersButtons } from "../shared/common/ButtonsContainer/SendNumber
 import { GenerateNumbers } from "../shared/common/GenerateNumbers";
 import { ListNumbers } from "../shared/common/ListNumbers";
 import { TeAndWaModal } from "../shared/common/Modals/TeAndWaModal";
+import { Footer } from "../shared/components/Footer";
 
 const useQuinaPage = () => {
   const [numbersQuina, setNumbersQuina] = useState<number[]>([
@@ -123,13 +124,15 @@ export const QuinaPage = () => {
           />
         </div>
       </div>
-      <div className="flex justify-center mt-72">
+      <div className="flex justify-center mt-72 mb-4">
         <ListNumbers
           quantityNumbers={80}
           numbersGenerates={numbersQuina}
           typeGame="quina"
         />
       </div>
+      <br />
+      <Footer actualPage="quina"/>
     </main>
   );
 };
