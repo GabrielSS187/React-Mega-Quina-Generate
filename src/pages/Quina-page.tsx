@@ -8,11 +8,15 @@ import { GenerateNumbersButtons } from "../shared/common/ButtonsContainer/Genera
 import { SendNumbersButtons } from "../shared/common/ButtonsContainer/SendNumbersButtons";
 import { GenerateNumbers } from "../shared/common/GenerateNumbers";
 import { ListNumbers } from "../shared/common/ListNumbers";
+import { TeAndWaModal } from "../shared/common/Modals/TeAndWaModal";
 
 const useQuinaPage = () => {
   const [numbersQuina, setNumbersQuina] = useState<number[]>([
     0o0, 0o0, 0o0, 0o0, 0o0,
   ]);
+  const [openModal, setOpenModal] = useState<
+    "WhatsApp*" | "Telegram*" | undefined
+  >(undefined);
   const [value, setCopy] = useCopyToClipboard();
 
   const generateNumbersQuina = (): void => {
@@ -57,14 +61,44 @@ const useQuinaPage = () => {
     );
   };
 
-  return { numbersQuina, generateNumbersQuina, copyNumbers };
+  const verifyIfNumbersMegaSena = (): { contem: boolean; text: string } => {
+    if (numbersQuina[0] === 0o0) {
+      return {
+        contem: false,
+        text: "Gere os números é receba no seu aplicativo.",
+      };
+    }
+
+    return { contem: true, text: String(numbersQuina) };
+  };
+
+  return {
+    numbersQuina,
+    generateNumbersQuina,
+    copyNumbers,
+    openModal,
+    setOpenModal,
+    verifyIfNumbersMegaSena,
+  };
 };
 
 export const QuinaPage = () => {
-  const { generateNumbersQuina, numbersQuina, copyNumbers } = useQuinaPage();
+  const {
+    generateNumbersQuina,
+    numbersQuina,
+    copyNumbers,
+    openModal,
+    setOpenModal,
+    verifyIfNumbersMegaSena,
+  } = useQuinaPage();
 
   return (
     <main>
+      <TeAndWaModal
+        activeModalName={openModal}
+        setActiveModalName={setOpenModal}
+        sendTextObj={verifyIfNumbersMegaSena}
+      />
       <div className="absolute top-[0] w-full bg-purple-800 pb-2 rounded-b-3xl">
         <div className="flex flex-col gap-1 sm:gap-2 mt-20">
           <div className="flex justify-center text-white text-xs mb-1 font-poppins font-medium sm:text-sm">
@@ -81,7 +115,12 @@ export const QuinaPage = () => {
             generateNumbersRandom={generateNumbersQuina}
             generateNumbersBest={generateNumbersQuina}
           />
-          <SendNumbersButtons />
+          <SendNumbersButtons
+            whatsApp={() => setOpenModal("WhatsApp*")}
+            telegram={() => setOpenModal("Telegram*")}
+            waParams={openModal}
+            teParams={openModal}
+          />
         </div>
       </div>
       <div className="flex justify-center mt-72">

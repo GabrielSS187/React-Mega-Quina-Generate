@@ -14,7 +14,9 @@ const useSenaPage = () => {
   const [numbersMegaSena, setNumbersMegaSena] = useState<number[]>([
     0o0, 0o0, 0o0, 0o0, 0o0, 0o0,
   ]);
-  const [openModal, setOpenModal] = useState<"TeAndWa*" | undefined>(undefined);
+  const [openModal, setOpenModal] = useState<
+    "WhatsApp*" | "Telegram*" | undefined
+  >(undefined);
   const [value, setCopy] = useCopyToClipboard();
 
   function generateNumbersMegaSena(): void {
@@ -63,7 +65,7 @@ const useSenaPage = () => {
     if (numbersMegaSena[0] === 0o0) {
       return {
         contem: false,
-        text: "Gere um número é receba no seu aplicativo.",
+        text: "Gere os números é receba no seu aplicativo.",
       };
     }
 
@@ -95,7 +97,6 @@ export const SenaPage = () => {
       <TeAndWaModal
         activeModalName={openModal}
         setActiveModalName={setOpenModal}
-        typeModal="Telegram"
         sendTextObj={verifyIfNumbersMegaSena}
       />
       <div className="top-[0] absolute w-full bg-green-500 pb-2 rounded-b-3xl">
@@ -115,8 +116,8 @@ export const SenaPage = () => {
             generateNumbersBest={generateNumbersMegaSena}
           />
           <SendNumbersButtons
-            whatsApp={() => setOpenModal("TeAndWa*")}
-            telegram={() => setOpenModal("TeAndWa*")}
+            whatsApp={() => setOpenModal("WhatsApp*")}
+            telegram={() => setOpenModal("Telegram*")}
             waParams={openModal}
             teParams={openModal}
           />
@@ -127,7 +128,6 @@ export const SenaPage = () => {
           quantityNumbers={60}
           numbersGenerates={numbersMegaSena}
           typeGame="sena"
-          openModal={openModal}
         />
       </div>
     </main>
