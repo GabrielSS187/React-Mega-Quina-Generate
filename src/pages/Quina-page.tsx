@@ -20,6 +20,21 @@ const useQuinaPage = () => {
   >(undefined);
   const [value, setCopy] = useCopyToClipboard();
 
+  const bestNumbers: number[] = [
+    1, 9, 27, 53, 77, 25, 32, 34, 37, 68, 41, 44, 61, 14, 18, 30, 51, 60, 8, 24,
+    70, 6, 23, 26, 31, 66, 4, 49, 52, 16, 29, 7, 28, 4, 63, 39, 55, 10, 79, 58,
+  ];
+
+  const notify = (): void => {
+    setTimeout(() => {
+      window.scrollTo({ behavior: "smooth", top: 300 });
+      toast.success(`Números gerados com sucesso.`, {
+        toastId: "success-sena-0*",
+        position: "bottom-center",
+      });
+    }, 5000);
+  };
+
   const generateNumbersQuina = (): void => {
     let numbers: number[] = [];
     while (numbers.length < 5) {
@@ -29,15 +44,37 @@ const useQuinaPage = () => {
       }
     }
     setNumbersQuina(numbers);
-
-    setTimeout(() => {
-      window.scrollTo({ behavior: "smooth", top: 300 });
-      toast.success(`Números gerados com sucesso.`, {
-        toastId: "success-quina-0*",
-        position: "bottom-center",
-      });
-    }, 5000);
+    notify()
   };
+
+  const selectRandomBestNumbers = (
+    numbersList: number[],
+    targetSize: number,
+    minEvenCount: number
+  ): void => {
+    const result: number[] = [];
+    let eventCount = 0;
+
+    while (result.length < targetSize) {
+      const randomIndex = Math.floor(Math.random() * numbersList.length);
+      const selectedNumber = bestNumbers[randomIndex];
+
+      if (!result.includes(selectedNumber)) {
+        result.push(selectedNumber);
+        if (selectedNumber % 2 === 0) {
+          eventCount++;
+        }
+      }
+    }
+
+    if (eventCount < minEvenCount) {
+      return selectRandomBestNumbers(numbersList, targetSize, minEvenCount);
+    }
+
+    setNumbersQuina(result);
+    notify();
+  };
+
 
   const copyNumbers = (numbers: number[]): void => {
     if (numbers[0] === 0o0) {
@@ -76,6 +113,8 @@ const useQuinaPage = () => {
   return {
     numbersQuina,
     generateNumbersQuina,
+    selectRandomBestNumbers,
+    bestNumbers,
     copyNumbers,
     openModal,
     setOpenModal,
@@ -86,6 +125,8 @@ const useQuinaPage = () => {
 export const QuinaPage = () => {
   const {
     generateNumbersQuina,
+    selectRandomBestNumbers,
+    bestNumbers,
     numbersQuina,
     copyNumbers,
     openModal,
@@ -114,7 +155,7 @@ export const QuinaPage = () => {
           <GenerateNumbers numbersArray={numbersQuina} typeGame="quina" />
           <GenerateNumbersButtons
             generateNumbersRandom={generateNumbersQuina}
-            generateNumbersBest={generateNumbersQuina}
+            generateNumbersBest={() => selectRandomBestNumbers(bestNumbers, 5, 1)}
           />
           <SendNumbersButtons
             whatsApp={() => setOpenModal("WhatsApp*")}
@@ -132,7 +173,7 @@ export const QuinaPage = () => {
         />
       </div>
       <br />
-      <Footer actualPage="quina"/>
+      <Footer actualPage="quina" />
     </main>
   );
 };

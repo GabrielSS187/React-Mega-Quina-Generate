@@ -20,7 +20,22 @@ const useSenaPage = () => {
   >(undefined);
   const [value, setCopy] = useCopyToClipboard();
 
-  function generateNumbersMegaSena(): void {
+  const bestNumbers: number[] = [
+    2, 10, 16, 32, 45, 49, 5, 26, 35, 46, 54, 17, 19, 22, 57, 3, 7, 29, 52, 56,
+    14, 30, 53, 37, 33, 23, 34, 42, 20, 59,
+  ];
+
+  const notify = (): void => {
+    setTimeout(() => {
+      window.scrollTo({ behavior: "smooth", top: 300 });
+      toast.success(`Números gerados com sucesso.`, {
+        toastId: "success-sena-0*",
+        position: "bottom-center",
+      });
+    }, 5000);
+  };
+
+  const generateNumbersMegaSena = (): void => {
     let numbers: number[] = [];
     while (numbers.length < 6) {
       const number = Math.floor(Math.random() * 60) + 1;
@@ -29,15 +44,36 @@ const useSenaPage = () => {
       }
     }
     setNumbersMegaSena(numbers);
+    notify();
+  };
 
-    setTimeout(() => {
-      window.scrollTo({ behavior: "smooth", top: 300 });
-      toast.success(`Números gerados com sucesso.`, {
-        toastId: "success-sena-0*",
-        position: "bottom-center",
-      });
-    }, 5000);
-  }
+  const selectRandomBestNumbers = (
+    numbersList: number[],
+    targetSize: number,
+    minEvenCount: number
+  ): void => {
+    const result: number[] = [];
+    let eventCount = 0;
+
+    while (result.length < targetSize) {
+      const randomIndex = Math.floor(Math.random() * numbersList.length);
+      const selectedNumber = bestNumbers[randomIndex];
+
+      if (!result.includes(selectedNumber)) {
+        result.push(selectedNumber);
+        if (selectedNumber % 2 === 0) {
+          eventCount++;
+        }
+      }
+    }
+
+    if (eventCount < minEvenCount) {
+      return selectRandomBestNumbers(numbersList, targetSize, minEvenCount);
+    }
+
+    setNumbersMegaSena(result);
+    notify();
+  };
 
   const copyNumbers = (numbers: number[]): void => {
     if (numbers[0] === 0o0) {
@@ -76,6 +112,8 @@ const useSenaPage = () => {
   return {
     numbersMegaSena,
     generateNumbersMegaSena,
+    selectRandomBestNumbers,
+    bestNumbers,
     copyNumbers,
     openModal,
     setOpenModal,
@@ -87,6 +125,8 @@ export const SenaPage = () => {
   const {
     numbersMegaSena,
     generateNumbersMegaSena,
+    selectRandomBestNumbers,
+    bestNumbers,
     copyNumbers,
     openModal,
     setOpenModal,
@@ -114,7 +154,9 @@ export const SenaPage = () => {
           <GenerateNumbers numbersArray={numbersMegaSena} typeGame="sena" />
           <GenerateNumbersButtons
             generateNumbersRandom={generateNumbersMegaSena}
-            generateNumbersBest={generateNumbersMegaSena}
+            generateNumbersBest={() =>
+              selectRandomBestNumbers(bestNumbers, 6, 2)
+            }
           />
           <SendNumbersButtons
             whatsApp={() => setOpenModal("WhatsApp*")}
@@ -132,7 +174,7 @@ export const SenaPage = () => {
         />
       </div>
       <br />
-      <Footer actualPage="sena"/>
+      <Footer actualPage="sena" />
     </main>
   );
 };
