@@ -60,8 +60,8 @@ export const TeAndWaModal = ({
 
   const handleFormSubmit = async (event: any) => {
     event.preventDefault();
-    const telValue = inputRef?.current?.value;
-
+    const telValue = event.nativeEvent.target.__reactFiber$4d2pdyho2ng.stateNode['0'].value
+    
     if (telValue) {
       const tel = validNumbersTel(telValue);
       if (tel === false) {
