@@ -48,7 +48,7 @@ https://github.com/GabrielSS187/React-Mega-Quina-Generate/assets/86306877/bbe42c
 #### Pré-requisitos: npm / yarn
 ```bash
 # 1 - clonar repositório
-https://github.com/GabrielSS187/My-Site-Portfolio.git
+https://github.com/GabrielSS187/React-Mega-Quina-Generate.git
 
 # 2 - entrar na pasta React-Mega-Quina-Generate
 cd React-Mega-Quina-Generate
